@@ -1,44 +1,67 @@
-# Wetteranzeige Berlin – Raspberry Pi Projekt mit Digilab
+## Projektziel
 
-## Projektbeschreibung
-
-Dieses Projekt zeigt das aktuelle Wetter in **Berlin** auf einem **LCD-Screen** im **Digilab** mithilfe eines **Raspberry Pi** an.  
-Die Anzeige und Steuerung erfolgen über zwei Buttons:
-
-### Button 1 – Wetter anzeigen
-Beim Drücken dieses Buttons wird über eine Wetter-API die aktuelle Temperatur in Berlin abgerufen und auf dem LCD-Display angezeigt.
-
-### Button 2 – Wetter Anzeige
-Basierend auf der Temperatur zeigt der Raspberry Pi eine passende Nachricht auf dem Display:
-
-- **Wenn Temperatur < 10°C**  
-  > *„Zieh dich warm an“*
-
-- **Wenn Temperatur zwischen 10°C und 30°C**  
-  >  *„Perfektes Wetter“*
-
-- **Wenn Temperatur > 30°C**  
-  > *„Drink mehr Wasser, es ist warm“*
+Ziel des Projekts ist es, mithilfe eines Raspberry Pi und eines LCD-Displays im Digilab das aktuelle Wetter in Berlin anzuzeigen. Per Knopfdruck wird entweder die Temperatur oder eine passende Handlungsempfehlung angezeigt (z. B. „Zieh dich warm an“). Bei langen Texten wird automatisch ein Scroll-Effekt auf dem Display ausgelöst, um die gesamte Nachricht sichtbar zu machen.
 
 ---
 
-## Besonderheit: Scrollende Texte
+## Projektphasen und Arbeitsschritte
 
-Das LCD-Display hat nur begrenzten Platz pro Zeile.  
-Deshalb wurde eine **automatische Textverschiebung (Scrolling)** programmiert:  
-> Wenn ein Satz zu lang für das Display ist, **scrollt der Text nach rechts**, sodass der ganze Satz sichtbar wird.
+### Phase 1 – Planung
+- Projektidee festlegen
+- Anforderungen und Komponenten definieren (Buttons, API, LCD)
+- API-Anbieter recherchieren (z. B. OpenWeatherMap)
+
+**Wichtigkeit:** Sehr hoch – Grundlage für alle weiteren Schritte
+
+### Phase 2 – Hardwareaufbau
+- Raspberry Pi einrichten
+- LCD und Buttons mit GPIO verbinden
+- Funktionsprüfung der Hardware
+
+**Wichtigkeit:** Hoch – ohne stabile Hardware keine zuverlässige Funktion
+
+### Phase 3 – Softwareentwicklung
+- Wetterdaten per API abrufen
+- Temperatur auswerten und Empfehlung erzeugen
+- LCD-Ausgabe mit Scroll-Funktion programmieren
+- Button-Ereignisse verarbeiten
+
+**Wichtigkeit:** Sehr hoch – zentrale Logik des Projekts
+
+### Phase 4 – Test und Optimierung
+- Funktionstests mit verschiedenen Temperaturen
+- Überprüfung der Scrollfunktion
+- Fehlerbehandlung einbauen
+
+**Wichtigkeit:** Mittel – wichtig für Benutzerfreundlichkeit und Stabilität
+
+### Phase 5 – Dokumentation
+- README und Aufbauplan erstellen
+- Code kommentieren
+- Nutzung und Anschluss dokumentieren
+
+**Wichtigkeit:** Hoch – sorgt für Verständlichkeit und Wiederverwendbarkeit
 
 ---
 
 ## Verwendete Technologien
 
-- **Raspberry Pi** mit Javascript , Json , (Node Red) und Digilab
-- **Digilab Umgebung**
-- **LCD-Display**
-- **Wetter-API** (z. B. [Die Website von wo ich mein API bekommen habe](https://openweathermap.org/))
--  Zwei Hardware-Buttons
+- Raspberry Pi (mit GPIO)
+- LCD-Display (16x2 oder 20x4)
+- Zwei Buttons zur Steuerung
+- Javascript/Json zur Ansteuerung und Logik
+- OpenWeatherMap API zur Wetterabfrage
 
 ---
 
+## Lösungsansätze
 
+- Temperaturbereiche werden in Javascript logisch ausgewertet
+- Scrolling-Funktion zeigt lange Texte auf kleinem Display lesbar an
+- Bedienung erfolgt komplett über Hardware (keine Tastatur/Maus nötig)
 
+---
+
+## Besonderheiten
+
+Das Projekt ist eine Kombination aus Hardware und Software mit einem klaren Alltagsbezug. Es zeigt, wie man mit wenig Komponenten ein interaktives, alltagstaugliches System bauen kann. Die automatische Textverschiebung auf einem begrenzten LCD-Display macht das Projekt besonders praktisch und benutzerfreundlich.
