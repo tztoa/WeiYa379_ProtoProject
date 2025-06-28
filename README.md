@@ -32,7 +32,7 @@ Deshalb wurde eine **automatische Textverschiebung (Scrolling)** programmiert:
 
 ## Verwendete Technologien
 
-- **Raspberry Pi** mit Python
+- **Raspberry Pi** mit Javascript , Json , (Node Red) und Digilab
 - **Digilab Umgebung**
 - **LCD-Display**
 - **Wetter-API** (z. B. [Die Website von wo ich mein API bekommen habe](https://openweathermap.org/))
