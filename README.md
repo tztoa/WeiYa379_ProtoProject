@@ -30,7 +30,7 @@ Deshalb wurde eine **automatische Textverschiebung (Scrolling)** programmiert:
 
 ---
 
-## 🔧 Verwendete Technologien
+## Verwendete Technologien
 
 - **Raspberry Pi** mit Python
 - **Digilab Umgebung**
