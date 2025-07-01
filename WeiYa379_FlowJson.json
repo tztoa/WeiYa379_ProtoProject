@@ -1,0 +1,391 @@
+[
+    {
+        "id": "2774bfad50ee5181",
+        "type": "tab",
+        "label": "Flow 8",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "5f0b526109bfb88e",
+        "type": "http request",
+        "z": "2774bfad50ee5181",
+        "name": "Wetter API Berlin",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "https://api.openweathermap.org/data/2.5/weather?q=Berlin&units=metric&appid=6446b0f7a01c85f52b171cde25df92cc",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 410,
+        "y": 580,
+        "wires": [
+            [
+                "c503b1523c591e17",
+                "7466d6e36942888a"
+            ]
+        ]
+    },
+    {
+        "id": "7466d6e36942888a",
+        "type": "function",
+        "z": "2774bfad50ee5181",
+        "name": "Extrahiere Temperatur",
+        "func": "if (msg.payload && msg.payload.main && typeof msg.payload.main.temp !== \"undefined\") {\n    const temp = msg.payload.main.temp;\n    msg.payload = `Temperatur in Berlin: ${temp} °C`;\n} else if (msg.payload && msg.payload.message) {\n    msg.payload = `Fehler von API: ${msg.payload.message}`;\n} else {\n    msg.payload = \"Fehler: Temperaturdaten konnten nicht gelesen werden.\";\n}\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 660,
+        "y": 500,
+        "wires": [
+            [
+                "b0856df32b6c8775",
+                "85bd7c4a878db7be"
+            ]
+        ]
+    },
+    {
+        "id": "b0856df32b6c8775",
+        "type": "debug",
+        "z": "2774bfad50ee5181",
+        "name": "Ausgabe",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 920,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "c503b1523c591e17",
+        "type": "debug",
+        "z": "2774bfad50ee5181",
+        "name": "API Antwort (raw)",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 650,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "85bd7c4a878db7be",
+        "type": "template",
+        "z": "2774bfad50ee5181",
+        "name": "Build Write Command",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": " --line \"1\" --message \"{{payload}}\"",
+        "output": "str",
+        "x": 900,
+        "y": 580,
+        "wires": [
+            [
+                "2a268ccba4508cfa"
+            ]
+        ]
+    },
+    {
+        "id": "2a268ccba4508cfa",
+        "type": "exec",
+        "z": "2774bfad50ee5181",
+        "command": "python /home/Wei/digilab/lcd/write2.py",
+        "addpay": "payload",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "Run Write Script",
+        "x": 1160,
+        "y": 580,
+        "wires": [
+            [],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "a93fcd4bbdbbabc4",
+        "type": "inject",
+        "z": "2774bfad50ee5181",
+        "name": "Initialize & Clear LCD",
+        "props": [
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "1",
+        "topic": "",
+        "x": 680,
+        "y": 420,
+        "wires": [
+            [
+                "2ccda89a9fe739f9"
+            ]
+        ]
+    },
+    {
+        "id": "2ccda89a9fe739f9",
+        "type": "exec",
+        "z": "2774bfad50ee5181",
+        "command": "python /home/Wei/digilab/lcd/init.py",
+        "addpay": "payload",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "Run Init/Clear Script",
+        "x": 950,
+        "y": 420,
+        "wires": [
+            [],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "be508ab0de360691",
+        "type": "inject",
+        "z": "2774bfad50ee5181",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 420,
+        "y": 500,
+        "wires": [
+            [
+                "5f0b526109bfb88e"
+            ]
+        ]
+    },
+    {
+        "id": "14716c94f64c22a8",
+        "type": "rpi-gpio in",
+        "z": "2774bfad50ee5181",
+        "name": "",
+        "pin": "19",
+        "intype": "tri",
+        "debounce": "25",
+        "read": false,
+        "bcm": true,
+        "x": 210,
+        "y": 580,
+        "wires": [
+            [
+                "5f0b526109bfb88e"
+            ]
+        ]
+    },
+    {
+        "id": "d9e03898eeaca994",
+        "type": "rpi-gpio in",
+        "z": "2774bfad50ee5181",
+        "name": "Button 2",
+        "pin": "16",
+        "intype": "up",
+        "debounce": "25",
+        "read": false,
+        "bcm": true,
+        "x": 210,
+        "y": 700,
+        "wires": [
+            [
+                "0ce649c13dde3129"
+            ]
+        ]
+    },
+    {
+        "id": "0ce649c13dde3129",
+        "type": "function",
+        "z": "2774bfad50ee5181",
+        "name": "Load Stored Temp",
+        "func": "const temp = flow.get(\"currentTemp\");\nmsg.temperature = temp;\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 420,
+        "y": 700,
+        "wires": [
+            [
+                "de00cfa68e4d07d2"
+            ]
+        ]
+    },
+    {
+        "id": "de00cfa68e4d07d2",
+        "type": "function",
+        "z": "2774bfad50ee5181",
+        "name": "Bewerte Temperatur",
+        "func": "const temp = msg.temperature;\nlet message = \"\";\n\nif (temp > 30) {\n    message = \"Drinke mehr Wasser heute wirds Warm\";\n} else if (temp > 20) {\n    message = \"Perfekts Temperatur du kannst gemuetlich rausgehen\";\n} else if (temp < 10) {\n    message = \"Es wird kalt ziehe was Dickes an\";\n} else {\n    message = \"Perfekts Temperatur du kannst gemuetlich rausgehen.\";\n}\n\nmsg.payload = message;\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 650,
+        "y": 700,
+        "wires": [
+            [
+                "b6096ece7b31a2a6",
+                "fee6c5a3edc1c047",
+                "1a5d18c97f57a01d"
+            ]
+        ]
+    },
+    {
+        "id": "b6096ece7b31a2a6",
+        "type": "debug",
+        "z": "2774bfad50ee5181",
+        "name": "Button2 Message",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 890,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "fee6c5a3edc1c047",
+        "type": "debug",
+        "z": "2774bfad50ee5181",
+        "name": "Ausgabe",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 890,
+        "y": 780,
+        "wires": []
+    },
+    {
+        "id": "1a5d18c97f57a01d",
+        "type": "template",
+        "z": "2774bfad50ee5181",
+        "name": "Build Write Command",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": " --line \"1\" --message \"{{payload}}\"",
+        "output": "str",
+        "x": 880,
+        "y": 820,
+        "wires": [
+            [
+                "5f592324639c0b3d"
+            ]
+        ]
+    },
+    {
+        "id": "5f592324639c0b3d",
+        "type": "exec",
+        "z": "2774bfad50ee5181",
+        "command": "python /home/Wei/digilab/lcd/write2.py",
+        "addpay": "payload",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "Run Write Script",
+        "x": 1080,
+        "y": 820,
+        "wires": [
+            [],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "02470f9de8cc8e88",
+        "type": "exec",
+        "z": "2774bfad50ee5181",
+        "command": "python /home/Wei/digilab/lcd/init.py",
+        "addpay": "payload",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "Run Init/Clear Script",
+        "x": 940,
+        "y": 320,
+        "wires": [
+            [],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "429393cc8a89ea00",
+        "type": "rpi-gpio in",
+        "z": "2774bfad50ee5181",
+        "name": "Button 2",
+        "pin": "20",
+        "intype": "up",
+        "debounce": "25",
+        "read": false,
+        "bcm": true,
+        "x": 720,
+        "y": 320,
+        "wires": [
+            [
+                "02470f9de8cc8e88"
+            ]
+        ]
+    }
+]
