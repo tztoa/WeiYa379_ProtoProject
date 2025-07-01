@@ -25,6 +25,7 @@ Ziel des Projekts ist es, mithilfe eines Raspberry Pi und eines LCD-Displays im 
 - Temperatur auswerten und Empfehlung erzeugen
 - LCD-Ausgabe mit Scroll-Funktion programmieren
 - Button-Ereignisse verarbeiten
+- Clear Button , was alles aus dem LCD Screen wegmacht
 
 **Wichtigkeit:** Sehr hoch – zentrale Logik des Projekts
 
